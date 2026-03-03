@@ -86,14 +86,16 @@ func resolveProviderSelection(cfg *config.Config) (providerSelection, error) {
 					sel.providerType = providerTypeClaudeAuth
 					return sel, nil
 				}
-				sel.apiKey = cfg.Providers.Anthropic.APIKey
-				sel.apiBase = cfg.Providers.Anthropic.APIBase
-				sel.proxy = cfg.Providers.Anthropic.Proxy
-				if sel.apiBase == "" {
-					sel.apiBase = defaultAnthropicAPIBase
+				if cfg.Providers.Anthropic.APIKey != "" {
+					sel.apiKey = cfg.Providers.Anthropic.APIKey
+					sel.apiBase = cfg.Providers.Anthropic.APIBase
+					sel.proxy = cfg.Providers.Anthropic.Proxy
+					if sel.apiBase == "" {
+						sel.apiBase = defaultAnthropicAPIBase
+					}
+					sel.providerType = providerTypeClaudeAPIKey
+					return sel, nil
 				}
-				sel.providerType = providerTypeClaudeAPIKey
-				return sel, nil
 			}
 		case "openrouter":
 			if cfg.Providers.OpenRouter.APIKey != "" {
@@ -238,14 +240,16 @@ func resolveProviderSelection(cfg *config.Config) (providerSelection, error) {
 				sel.providerType = providerTypeClaudeAuth
 				return sel, nil
 			}
-			sel.apiKey = cfg.Providers.Anthropic.APIKey
-			sel.apiBase = cfg.Providers.Anthropic.APIBase
-			sel.proxy = cfg.Providers.Anthropic.Proxy
-			if sel.apiBase == "" {
-				sel.apiBase = defaultAnthropicAPIBase
+			if cfg.Providers.Anthropic.APIKey != "" {
+				sel.apiKey = cfg.Providers.Anthropic.APIKey
+				sel.apiBase = cfg.Providers.Anthropic.APIBase
+				sel.proxy = cfg.Providers.Anthropic.Proxy
+				if sel.apiBase == "" {
+					sel.apiBase = defaultAnthropicAPIBase
+				}
+				sel.providerType = providerTypeClaudeAPIKey
+				return sel, nil
 			}
-			sel.providerType = providerTypeClaudeAPIKey
-			return sel, nil
 		case (strings.Contains(lowerModel, "gpt") || strings.HasPrefix(model, "openai/")) &&
 			(cfg.Providers.OpenAI.APIKey != "" || cfg.Providers.OpenAI.AuthMethod != ""):
 			sel.enableWebSearch = cfg.Providers.OpenAI.WebSearch

@@ -345,11 +345,16 @@ func TestCreateProviderReturnsClaudeProviderForAnthropicOAuth(t *testing.T) {
 
 func TestCreateProviderReturnsClaudeProviderForAnthropicAPIKey(t *testing.T) {
 	cfg := config.DefaultConfig()
-	cfg.Agents.Defaults.Provider = "anthropic"
-	cfg.Agents.Defaults.Model = "claude-opus-4-6"
-	cfg.Providers.Anthropic.APIKey = "sk-ant-api03-test"
+	cfg.Agents.Defaults.Model = "test-claude-apikey"
+	cfg.ModelList = []config.ModelConfig{
+		{
+			ModelName: "test-claude-apikey",
+			Model:     "anthropic/claude-opus-4-6",
+			APIKey:    "sk-ant-api03-test",
+		},
+	}
 
-	provider, err := CreateProvider(cfg)
+	provider, _, err := CreateProvider(cfg)
 	if err != nil {
 		t.Fatalf("CreateProvider() error = %v", err)
 	}
