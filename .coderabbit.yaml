@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: "pt-BR"
+tone_instructions: "Seja profissional, construtivo e foque em qualidade de código. Escreva em português."
+early_access: false
+
+reviews:
+  auto_review:
+    enabled: true
+    base_branches:
+      - main
+      - master
+    drafts: false
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+
+  path_instructions:
+    - path: "**/*.go"
+      instructions: |
+        Go idiomático: error returns explícitos, defer/recover correto, goroutine safety.
+        Sem goroutine leaks (channels fechados, contexts respeitados).
+        Propagação correta de context.Context em chamadas IO.
+        Sem race conditions; sugerir -race em testes quando relevante.
+        Sem panic em código de biblioteca; uso correto de errors.Is/As.
+    - path: "cmd/**"
+      instructions: |
+        CLI entry points. Verificar flags documentadas, help text correto.
+        Signal handling e graceful shutdown.
+    - path: "internal/**"
+      instructions: |
+        Pacotes internos. Verificar coesão e que API não vaza para clientes externos.
+    - path: ".github/**"
+      instructions: Revisar segurança, manejo de secrets e sintaxe de workflow.
+
+chat:
+  auto_reply: true
