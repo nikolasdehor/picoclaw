@@ -1,0 +1,56 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: pt-BR
+tone_instructions: assertivo, prático e focado em bugs reais, segurança e confiabilidade.
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  poem: false
+  estimate_code_review_effort: true
+  auto_review:
+    enabled: true
+  drafts: false
+  auto_incremental_review: true
+  base_branches:
+    - main
+  path_instructions:
+    - path: ".github/workflows/**"
+      instructions: >
+        Em workflows, revisar permissões mínimas de Actions, validação de secrets, e logs com menos exposição de dados sensíveis.
+    - path: "**/*.go"
+      instructions: >
+        Revisar Go com foco em segurança, tratamento de erros explícito, validação de tipos e casos críticos com testes quando aplicável.
+  path_filters:
+    - "!README.md"
+    - "!docs/**"
+    - "!**/*.lock"
+    - "!dist/**"
+    - "!build/**"
+    - "!cache/**"
+    - "!node_modules/**"
+    - "!.venv/**"
+    - "!coverage/**"
+    - "!**/*.exe"
+    - "!**/*.dll"
+    - "!**/*.so"
+    - "!**/*.dylib"
+    - "!**/*.bin"
+tools:
+  gitleaks:
+    enabled: true
+  semgrep:
+    enabled: true
+  presidio:
+    enabled: true
+  markdownlint:
+    enabled: false
+knowledge_base:
+  code_guidelines:
+    enabled: true
+    files:
+      - AGENTS.md
+      - README.md
+      - docs/**/*.md
+chat:
+  auto_reply: true
